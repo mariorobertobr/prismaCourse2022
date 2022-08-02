@@ -17,8 +17,15 @@ export class PostsRepositories {
         return posts;
     }
 
-    async findAll(): Promise<PostEntity[]> {
-        const posts = await this.prismaService.post.findMany();
+    async findAll(): Promise<any> {
+        const posts = await this.prismaService.post.findMany({
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                published: true,
+            },
+        });
         return posts;
     }
 
@@ -47,7 +54,7 @@ export class PostsRepositories {
     }
 
     async remove(id: number): Promise<void> {
-        const RemovePost = await this.prismaService.post.delete({
+        await this.prismaService.post.delete({
             where: {
                 id,
             },
